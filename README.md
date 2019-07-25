@@ -54,6 +54,39 @@ To test out this program, clone the repo, run `make` and then run the program wi
 
 You can find unit tests and see a variety of boards solved by running `make test`.You may need to install [Check](https://libcheck.github.io/check/web/install.html) if you don't have it installed already.
 
+## Getting Started
+
+### Compiling
+
+Run the following commands:
+
+* To compile
+	- `make`
+* To remove objects:
+	- `make clean`
+* To remove objects and binary file (program):
+	- `make fclean`
+* To re-compile:
+	- `make re`
+
+### Executing
+
+To execute the program:
+
+`./fillit <fillit-file>`
+
+#### Try it!
+
+Try running the following:
+
+`./fillit tests/fails/error_5`
+
+`./fillit tests/corrects/valid_5`
+
+`./fillit tests/corrects/valid_17`
+
+`./fillit tests/corrects/valid_19`
+
 ## Authors
 
 * [*Maria Goretti Rivera Mendoza*](https://github.com/GorettiRivera)
