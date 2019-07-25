@@ -24,9 +24,17 @@ Once we validated the tetrominoes, we were ready to start placing them on a boar
 The elements we needed to solve this problem were a list of tetrominoes and a square board to try and place the tetrominoes on. We chose to represent each tetrimino as a structure that contained a height, width and character array and we stored the tetrominoes in a linked list to keep track of their input order. We knew we could use recursion while placing the pieces so a singly linked list was ok, as there was no need to traverse backwards in the list.
 Since we chose to store the shape of the tetromino pieces as an array of strings within the tetromino structure, we decided to also represent the square solution board as an array of strings. We found this was especially useful while debugging as at any point we could easily print tetromino pieces and the current state of the solution on the board.
 
+## Solving the Puzzle
+To come up with an algorithm to solve the board, we tried manually solving a few simple boards with small pieces. We broke the overall problem down into three smaller problems:
+1. Check if a single piece fits on a board, and if so, place that piece on the first available spot on the board. Repeat until the board is full.
+2. If the board is full and a solution has not been found, undo the last piece placed on the board and try a different position for it. Repeat until all possible positions for all tetromino pieces have been tried.
+3. If all possible solutions on a board have been tried, increase the size of the board and start over with placing the first tetromino. Note that the smallest possible board size is 2x2 as defined by the square tetromino by itself.
 
-
-## Getting Started
+ ## Future Opportunities & Optimizations
+While our solution could solve 1–8 tetromino shapes in 0.00 seconds, it got exponentially slower with each additional piece and became unwieldy long with 10+ pieces.
+One possible optimization is to calculate the starting board size, based on the number of individual cells that would be filled by the tetromino pieces, using the formula:
+board starting size = sqrt(# of tetrominoes * 4 characters per tetromino)
+Another possible optimization is to use a simper data structure to represent the tetromino pieces and the tetromino board, to avoid looping through each tetromino to place the piece. Some of the other students at 42USA were able to get significant improvements in time by using a bitfield to represent the board and bitwise operators to place the individual pieces.
 
 To test out this program, clone the repo, run `make` and then run the program with one of the sample input maps included in the test\_input repo. Eg. `./fillit test_input/valid_maps/basic_input`. Feel free to make your own input file and pass it in as a parameter to the program. You can check how long your tetriminoes take to find the smallest square by running `time ./fillit <your input file>`.
 
