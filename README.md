@@ -1,6 +1,5 @@
 # Fillit
-
-Fillit is a program that takes a file containing a list of tetriminoes and arranges them in the smallest possible square.
+This projects seeks in discovering and/or familiarizing a recurring problematic in programming: searching for the optimal solution among a huge set of possibilities. In this particular project, the idea is to create an algorithm which fits some Tetriminos together into the smallest possible square, in the minimal amount of time, amount of time, despite a exponentially growing number of possibilities each time a piece is added.
 
 ## The Problem
 A Tetrimino block is a shape made up of 4 consecutive characters. You’ve probably seen Tetrominoes in the popular game, Tetris. For the purpose of this puzzle, Tetrominoes are considered fixed, meaning that they cannot be rotated and there are a total of 19 possible pieces that can be provided as input, as pictured below:
