@@ -9,7 +9,7 @@ A Tetrimino block is a shape made up of 4 consecutive characters. You’ve proba
 
 The goal of the puzzle is to find the smallest possible square board that the tetrominoes can fit in. Below is an examples of input and the desired solutions:
 
-![](vci.png)
+![](examples.png)
 
 Note that when there are multiple solutions possible within the same size square, the solution with the pieces placed in the order they are provided at their top-most left-most positions is correct.
 
