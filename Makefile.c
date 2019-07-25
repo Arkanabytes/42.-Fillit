@@ -6,13 +6,11 @@
 /*   By: copinto- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:48:59 by copinto-          #+#    #+#             */
-/*   Updated: 2019/07/23 20:59:45 by copinto-         ###   ########.fr       */
+/*   Updated: 2019/07/25 12:40:33 by copinto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 NAME = fillit
-
-SRC = main.c fillit_lector.c fillit_tetrimino.c fillit_solve.c \
 
 OBJECTS = $(SRC:.c=.o)
 CC = gcc
@@ -21,17 +19,16 @@ CFLAGS = -Wall -Wextra -Werror
 SRCDIR = ./srcs/
 
 all: $(NAME):
-
-%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-$(NAME): (OBJ)
-		  $(CC) -o $(NAME) $(OBJECTS)
+	make -C libft/ fclean && make -C libft/
+	clang -Wall -Wextra -Werror -I libft -o fillit_read.o -c fillit_read.c -g
+	clang -Wall -Wextra -Werror -I libft -o main.o -c main.c -g
+	clang -o fillit main.o fillit_read.o -I libft -L libft/ -lft
 
 clean:
-		rm -rf $(OBJECTS)
+	rm -rf *.o
+	rm -rf fillit
 
 fclean: clean
-	rm -rf $(NAME)
+	@make -C libft/ fclean
 
 re: fclean all
