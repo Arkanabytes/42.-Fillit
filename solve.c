@@ -6,13 +6,13 @@
 /*   By: copinto- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 00:33:26 by copinto-          #+#    #+#             */
-/*   Updated: 2019/07/30 00:36:16 by copinto-         ###   ########.fr       */
+/*   Updated: 2019/08/06 13:33:46 by copinto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fillit.h"
+#include "fillit.h"
 
-static void	fillit_set_tetromino(t_tetromino *tet, char **map, int y, int x)
+void		set_tetrimino(t_tetrimino *tet, char **map, int y, int x)
 {
 	int		row;
 	int		col;
@@ -36,7 +36,7 @@ static void	fillit_set_tetromino(t_tetromino *tet, char **map, int y, int x)
 	}
 }
 
-static int	fillit_check_placement(t_tetromino *tet, char **map, int y, int x)
+int			check_placement(t_tetrimino *tet, char **map, int y, int x)
 {
 	int		row;
 	int		col;
@@ -51,7 +51,7 @@ static int	fillit_check_placement(t_tetromino *tet, char **map, int y, int x)
 		{
 			if (tet->x[i] == col && tet->y[i] == row && i < SIZE)
 			{
-				if (map[col + y][row + x] != EMPTY)
+				if (map[col + y][row + x] != '.')
 					return (0);
 				i += 1;
 			}
@@ -59,15 +59,15 @@ static int	fillit_check_placement(t_tetromino *tet, char **map, int y, int x)
 		}
 		col += 1;
 	}
-	fillit_set_tetromino(tet, map, y, x);
+	set_tetrimino(tet, map, y, x);
 	return (1);
 }
 
-static void	fillit_move_tetromino_upperleft(t_tetromino *tet)
+void		move_tetrimino_upperleft(t_tetrimino *tet)
 {
-	int			i;
-	int			pos_x;
-	int			pos_y;
+	int		i;
+	int		pos_x;
+	int		pos_y;
 
 	while (tet)
 	{
@@ -91,7 +91,7 @@ static void	fillit_move_tetromino_upperleft(t_tetromino *tet)
 	}
 }
 
-static int	fillit_solve_map(char **map, t_tetromino *tet, int size)
+int			solve_map(char **map, t_tetrimino *tet, int size)
 {
 	int		x;
 	int		y;
@@ -106,12 +106,12 @@ static int	fillit_solve_map(char **map, t_tetromino *tet, int size)
 		x = -1;
 		while (++x <= (size - tet->width))
 		{
-			if (fillit_check_placement(tet, map, y, x))
+			if (check_placement(tet, map, y, x))
 			{
-				if (fillit_solve_map(map, tet->next, size))
+				if (solve_map(map, tet->next, size))
 					return (1);
-				tet->letter = EMPTY;
-				fillit_set_tetromino(tet, map, y, x);
+				tet->letter = '.';
+				set_tetrimino(tet, map, y, x);
 				tet->letter = letter;
 			}
 		}
@@ -119,21 +119,21 @@ static int	fillit_solve_map(char **map, t_tetromino *tet, int size)
 	return (0);
 }
 
-char		**fillit_solve(t_tetromino *tet)
+char		**fillit_solve(t_tetrimino *tet)
 {
 	char	**map;
 	int		size;
 
 	if (!tet)
 		return (NULL);
-	size = ft_sqrt(g_num_tets * SIZE);
-	map = fillit_create_map(size);
-	fillit_move_tetromino_upperleft(tet);
-	while (!fillit_solve_map(map, tet, size))
+	size = ft_sqrt(g_num_tetris * SIZE);
+	map = create_map(size);
+	move_tetrimino_upperleft(tet);
+	while (!solve_map(map, tet, size))
 	{
 		ft_memdel((void **)map);
 		size += 1;
-		map = fillit_create_map(size);
+		map = create_map(size);
 	}
 	return (map);
 }

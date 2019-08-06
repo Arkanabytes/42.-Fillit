@@ -6,13 +6,13 @@
 /*   By: copinto- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 00:38:11 by copinto-          #+#    #+#             */
-/*   Updated: 2019/07/30 00:40:42 by copinto-         ###   ########.fr       */
+/*   Updated: 2019/08/06 13:31:05 by copinto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fillit.h"
+#include "fillit.h"
 
-static void				fillit_set_dimensions(t_tetromino *tet)
+static void				set_dimensions(t_tetrimino *tet)
 {
 	int		row;
 	int		col;
@@ -40,16 +40,15 @@ static void				fillit_set_dimensions(t_tetromino *tet)
 	tet->height = (height / 4);
 }
 
-
-static char				***fillit_split_tetromino(char **map)
+static char				***split_tetrimino(char **map)
 {
 	int		i;
 	char	***fullmap;
 
 	i = 0;
-	if (!(fullmap = (char ***)malloc(sizeof(char **) * g_num_tets + 1)))
+	if (!(fullmap = (char ***)malloc(sizeof(char **) * g_num_tetris + 1)))
 		return (NULL);
-	while (i < g_num_tets)
+	while (i < g_num_tetris)
 	{
 		fullmap[i] = ft_strsplit(map[i], '\n');
 		i += 1;
@@ -57,34 +56,34 @@ static char				***fillit_split_tetromino(char **map)
 	return (fullmap);
 }
 
-static t_tetromino		*fillit_new_tetrominos(int size)
+static t_tetrimino		*new_tetriminos(int size)
 {
 	int			i;
-	t_tetromino	*new;
-	t_tetromino *head;
+	t_tetrimino	*new;
+	t_tetrimino *head;
 
-	if (!(new = (t_tetromino *)malloc(sizeof(t_tetromino) + 1)))
+	if (!(new = (t_tetrimino *)malloc(sizeof(t_tetrimino) + 1)))
 		return (NULL);
 	head = new;
 	i = 0;
 	while (i++ < size)
 	{
-		if (!(new->next = (t_tetromino *)malloc(sizeof(t_tetromino) + 1)))
+		if (!(new->next = (t_tetrimino *)malloc(sizeof(t_tetrimino) + 1)))
 			return (NULL);
 		new = new->next;
 	}
-	ft_memset(new, 0, (sizeof(t_tetromino) + 1));
+	ft_memset(new, 0, (sizeof(t_tetrimino) + 1));
 	return (head);
 }
 
-static t_tetromino		*fillit_create_tetrominos(char ***fullmap, \
-						t_tetromino *tet, char letter, int *counter)
+static t_tetrimino		*create_tetriminos(char ***fullmap, \
+						t_tetrimino *tet, char letter, int *counter)
 {
-	t_tetromino *head;
+	t_tetrimino *head;
 
 	head = tet;
 	counter[0] = -1;
-	while (++counter[0] < g_num_tets)
+	while (++counter[0] < g_num_tetris)
 	{
 		counter[3] = 0;
 		counter[1] = -1;
@@ -93,31 +92,31 @@ static t_tetromino		*fillit_create_tetrominos(char ***fullmap, \
 			counter[2] = -1;
 			while (++counter[2] < SIZE)
 			{
-				if (fullmap[counter[0]][counter[1]][counter[2]] == BLOCK)
+				if (fullmap[counter[0]][counter[1]][counter[2]] == '#')
 				{
 					tet->x[counter[3]] = counter[1];
 					tet->y[counter[3]++] = counter[2];
 				}
 			}
 		}
-		fillit_set_dimensions(tet);
+		set_dimensions(tet);
 		tet->letter = letter++;
 		tet = tet->next;
 	}
 	return (head);
 }
 
-t_tetromino				*fillit_tetromino(char **map)
+t_tetrimino				*tetrimino_map(char **map)
 {
 	int				*counter;
 	char			***fullmap;
-	t_tetromino		*tetromino;
+	t_tetrimino		*tetrimino;
 
 	if (!(counter = (int *)malloc(sizeof(int) * 4)))
 		return (NULL);
-	if (!(fullmap = (char ***)malloc(sizeof(char **) * g_num_tets + 1)))
+	if (!(fullmap = (char ***)malloc(sizeof(char **) * g_num_tetris + 1)))
 		return (NULL);
-	tetromino = fillit_new_tetrominos(g_num_tets);
-	fullmap = fillit_split_tetromino(map);
-	return (fillit_create_tetrominos(fullmap, tetromino, LETTER, counter));
+	tetrimino = new_tetriminos(g_num_tetris);
+	fullmap = split_tetrimino(map);
+	return (create_tetriminos(fullmap, tetrimino, 'A', counter));
 }
