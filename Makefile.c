@@ -6,29 +6,30 @@
 /*   By: copinto- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 19:48:59 by copinto-          #+#    #+#             */
-/*   Updated: 2019/07/25 12:40:33 by copinto-         ###   ########.fr       */
+/*   Updated: 2019/08/06 13:23:53 by copinto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 NAME = fillit
+CC = clang
+FLAGS = -Wall -Wextra -Werror
+INCLUDES = libft
+SRCS = main.c read.c tetrimino.c solve.c
+OBJS = *.o
+LIB_DIR = libft/
 
-OBJECTS = $(SRC:.c=.o)
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+$(NAME):
+	make -C $(LIB_DIR) fclean && make -C $(LIB_DIR)
+	$(CC) $(FLAGS) -I $(INCLUDES) -c $(SRCS)
+	$(CC) -o $(NAME) $(OBJS) -I $(INCLUDES) -L $(LIB_DIR) -lft
 
-SRCDIR = ./srcs/
-
-all: $(NAME):
-	make -C libft/ fclean && make -C libft/
-	clang -Wall -Wextra -Werror -I libft -o fillit_read.o -c fillit_read.c -g
-	clang -Wall -Wextra -Werror -I libft -o main.o -c main.c -g
-	clang -o fillit main.o fillit_read.o -I libft -L libft/ -lft
+all: $(NAME)
 
 clean:
-	rm -rf *.o
-	rm -rf fillit
+	rm -rf $(OBJS)
+	make -C $(LIB_DIR) fclean
 
 fclean: clean
-	@make -C libft/ fclean
+	rm -rf $(NAME)
 
-re: fclean all
+re:	fclean all
