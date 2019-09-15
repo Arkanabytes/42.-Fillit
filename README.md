@@ -89,5 +89,5 @@ Try running the following:
 
 ## Authors
 
-* [*Maria Goretti Rivera Mendoza*](https://github.com/GorettiRivera)
+
 * [*Consuelo Alejandra Pinto Toro*](https://github.com/hatejandra)
